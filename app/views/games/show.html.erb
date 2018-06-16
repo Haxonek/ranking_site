@@ -1,0 +1,35 @@
+<div class="container">
+    <p id="notice"><%= notice %></p>
+
+    <h2>Game (id: <%= @game.id %>)</h2>
+
+    <p>
+      <strong>Winner:</strong>
+      <%= @game.winner %>
+    </p>
+
+    <p>
+      <strong>Loser:</strong>
+      <%= @game.loser %>
+    </p>
+
+    <p>
+      <strong>Played:</strong>
+      <%= @game.played %>
+    </p>
+
+    <p>
+      <strong>Winner Rank:</strong>
+      <%= @game.wrank %>
+    </p>
+
+    <p>
+      <strong>Loser Rank:</strong>
+      <%= @game.lrank %>
+    </p>
+
+    <div class="">
+        <%= link_to 'Edit', edit_game_path(@game) %> |
+        <%= link_to 'Back', games_path %>
+    </div>
+</div>

@@ -1,0 +1,112 @@
+<div class="container">
+    <p id="notice"><%= notice %></p>
+
+    <div class="row title">
+        <div class="twelve columns">
+            <h1>Sentry Ping Pong Ranking</h1>
+            <p>games works: <%= @games.count %></p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="columns twelve">
+            <!-- enter d3 table -->
+            <!-- <img class="graph" src="https://images.unsplash.com/photo-1506789658653-e5729a1ee31d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=df9993cd64418ab6085234de77617931&auto=format&fit=crop&w=1782&q=80"> -->
+            <!-- load D3js -->
+            <script src="//d3plus.org/js/d3.js"></script>
+
+            <!-- load D3plus after D3js -->
+            <script src="//d3plus.org/js/d3plus.js"></script>
+
+            <!-- create container element for visualization -->
+            <div id="viz"></div>
+
+            <script>
+            var attributes = [
+                <% @games.each do |game| %>
+                  {"name": "<%= @employees.find_by_id(game.winner).name %>", "hex": "<%= @employees.find_by_id(game.winner).color %>"},
+                <% end %>
+              ]
+
+              // puts game data in a JSON of employees
+              var sample_data = [
+                  <% @games.each do |game| %>
+                    {"games with time": <%= game.id %>, "name":"<%= @employees.find_by_id(game.winner).name %>", "ranking":<%= game.wrank %>},
+                    {"games with time": <%= game.id %>, "name":"<%= @employees.find_by_id(game.loser).name %>", "ranking":<%= game.lrank %>},
+                  <% end %>
+              ]
+
+              // instantiate d3plus
+              var visualization = d3plus.viz()
+                .container("#viz")  // container DIV to hold the visualization
+                .data(sample_data)  // data to use with the visualization
+                .type("line")       // visualization type
+                .id("name")         // key for which our data is unique on
+                .text("name")       // key to use for display text
+                .y("ranking")       // key to use for y-axis
+                .x("games with time")          // key to use for x-axis
+                .attrs(attributes)
+                .color("hex")
+                .draw()             // finally, draw the visualization!
+            </script>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <h6 class="center">RANKINGS</h6>
+    </div>
+    <div class="row">
+        <div class="columns one">
+            id
+        </div>
+        <div class="columns one center">
+            rank
+        </div>
+        <div class="columns four center">
+            name
+        </div>
+        <div class="columns three center">
+            color
+        </div>
+        <div class="columns three right">
+            modify
+        </div>
+    </div>
+    <% @employees.each do |employee| %>
+        <div class="row">
+            <div class="columns one">
+                <%= employee.id %>
+            </div>
+            <div class="columns one center">
+                <%= employee.rank %>
+            </div>
+            <div class="columns four center">
+                <%= employee.name %>
+            </div>
+            <div class="columns three center" style="color: <%= employee.color %>;">
+                <%= employee.color %>
+            </div>
+            <div class="columns three right">
+                <%= link_to 'Show', employee %>
+                <%= link_to 'Edit', edit_employee_path(employee) %>
+                <%= link_to 'Destroy', employee, method: :delete, data: { confirm: 'Are you sure?' } %>
+            </div>
+        </div>
+    <% end %>
+
+    <br/>
+    <br/>
+    <br/>
+
+    <div class="row center">
+        <%= link_to 'New Employee', new_employee_path %>
+        <%= link_to 'New Game', new_game_path %>
+    </div>
+
+    <br/>
+
+    <div class="row center">
+        <%= link_to 'view all games', games_path %>
+    </div>
+</div>
