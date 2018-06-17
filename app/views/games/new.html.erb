@@ -1,8 +1,32 @@
 
 <div class="container">
-    <h1>New Game</h1>
+    <div class="row">
+        <h1>New Game</h1>
+    </div>
 
-    <%= render 'form' %>
+    <div class="row">
+        <div class="six columns">
+            <%= render 'form' %>
+        </div>
+        <div class="six columns">
+            <div class="row">
+                <h4>Employees</h4>
+            </div>
+            <% @employees.each do |employee| %>
+                <div class="row">
+                    <div class="columns two">
+                        <%= employee.id %>
+                    </div>
+                    <div class="columns seven">
+                        <%= employee.name %>
+                    </div>
+                    <div class="columns three">
+                        <%= employee.rank %>
+                    </div>
+                </div>
+            <% end %>
+        </div>
+    </div>
 
     <%= link_to 'Back', games_path %>
 </div>

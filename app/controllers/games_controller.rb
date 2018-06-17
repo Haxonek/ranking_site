@@ -15,6 +15,7 @@ class GamesController < ApplicationController
   # GET /games/new
   def new
     @game = Game.new
+    @employees = get_all_employees
   end
 
   # GET /games/1/edit
@@ -44,8 +45,8 @@ class GamesController < ApplicationController
     # nwr = [w.rank + delta, 1000].min
     # nlr = [l.rank - delta, 1].max
 
-    nwr = w.rank + 20*[Math::log((w.rank - l.rank).abs, 20),1].max
-    nlr = l.rank - 20*[Math::log((w.rank - l.rank).abs, 20),1].max
+    nwr = w.rank + 20*[Math::log((w.rank - l.rank).abs, 15),1].max
+    nlr = l.rank - 20*[Math::log((w.rank - l.rank).abs, 15),1].max
 
     @game.wrank = nwr
     @game.lrank = nlr

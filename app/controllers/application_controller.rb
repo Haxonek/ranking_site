@@ -8,6 +8,10 @@ class ApplicationController < ActionController::Base
       return Game.all.order(id: :asc).limit(100)
   end
 
+  def get_all_employees
+      return Employee.all.order(id: :asc)
+  end
+
   def get_employee(player_id)
       return Employee.find_by_id(player_id)
   end
