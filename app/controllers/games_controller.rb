@@ -41,8 +41,11 @@ class GamesController < ApplicationController
     # delta = (1/(Math::log( [(l.rank-w.rank).abs, 1].max )))**(2)*(500/( (l.rank-w.rank).abs/2 - 500 ).abs)
     delta = windiff * frommid;
 
-    nwr = [w.rank + delta, 1000].min
-    nlr = [l.rank - delta, 1].max
+    # nwr = [w.rank + delta, 1000].min
+    # nlr = [l.rank - delta, 1].max
+
+    nwr = w.rank + 20*[Math::log((w.rank - l.rank).abs, 20),1].max
+    nlr = l.rank - 20*[Math::log((w.rank - l.rank).abs, 20),1].max
 
     @game.wrank = nwr
     @game.lrank = nlr

@@ -18,4 +18,8 @@ Employee.create(name: 'Mason', color: '#BFFF00', rank: 500)         # 9
 Employee.create(name: 'Ethan', color: '#4600bF', rank: 500)         # 10
 Employee.create(name: 'Jordan', color: '#ff8243', rank: 500)        # 11
 
-games = Game.create([])
+# games = Game.create(winner: 1, loser: 2, lrank: 478, wrank: 523)
+# games = Game.create(winner: 5, loser: 3, lrank: 478, wrank: 523)
+# games = Game.create(winner: 3, loser: 2, lrank: 512, wrank: 498)
+# games = Game.create(winner: 4, loser: 1, lrank: 506, wrank: 532)
+# games = Game.create(winner: 1, loser: 3, lrank: 543, wrank: 469)

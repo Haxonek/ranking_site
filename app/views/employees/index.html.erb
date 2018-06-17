@@ -33,6 +33,11 @@
                   <% @games.each do |game| %>
                     {"games with time": <%= game.id %>, "name":"<%= @employees.find_by_id(game.winner).name %>", "ranking":<%= game.wrank %>},
                     {"games with time": <%= game.id %>, "name":"<%= @employees.find_by_id(game.loser).name %>", "ranking":<%= game.lrank %>},
+                    <% @employees.each do |employee| %>
+                        <% if (employee.id != game.winner || employee.id != game.loser) %>
+                        {"games with time": <%= game.id %>, "name":"<%= employee.name %>", "ranking":<%= employee.rank %>},
+                        <% end %>
+                    <% end %>
                   <% end %>
               ]
 
