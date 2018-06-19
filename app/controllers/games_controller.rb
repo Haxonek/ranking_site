@@ -31,22 +31,31 @@ class GamesController < ApplicationController
     w = get_employee(params[:game][:winner])
     l = get_employee(params[:game][:loser])
 
-    if w.rank > l.rank # expected
-        windiff = 1/(Math::log( [(l.rank-w.rank).abs, 1].max ));
-    else # unexpected
-        windiff = Math::log( [(l.rank-w.rank).abs, 1.3].max );
-    end
-
-    frommid = 500/(((l.rank-w.rank).abs/2 - 500).abs)**(1.6);
-
-    # delta = (1/(Math::log( [(l.rank-w.rank).abs, 1].max )))**(2)*(500/( (l.rank-w.rank).abs/2 - 500 ).abs)
-    delta = windiff * frommid;
-
+    # if w.rank > l.rank # expected
+    #     windiff = 1/(Math::log( [(l.rank-w.rank).abs, 1].max ));
+    # else # unexpected
+    #     windiff = Math::log( [(l.rank-w.rank).abs, 1.3].max );
+    # end
+    #
+    # frommid = 500/(((l.rank-w.rank).abs/2 - 500).abs)**(1.6);
+    #
+    # # delta = (1/(Math::log( [(l.rank-w.rank).abs, 1].max )))**(2)*(500/( (l.rank-w.rank).abs/2 - 500 ).abs)
+    # delta = windiff * frommid;
+    #
     # nwr = [w.rank + delta, 1000].min
     # nlr = [l.rank - delta, 1].max
 
-    nwr = w.rank + 20*[Math::log((w.rank - l.rank).abs, 15),1].max
-    nlr = l.rank - 20*[Math::log((w.rank - l.rank).abs, 15),1].max
+    dif = (w.rank - l.rank).abs
+
+    if (w.rank < l.rank) # unexpected
+        delta = 7 + (1/1200)*(dif**2)
+    else # expected
+        log_10 = Math::log(dif)/(Math::log(7))
+        delta = [7/log_10, 7].min
+    end
+
+    nwr = [w.rank + delta, 1000].min
+    nlr = [l.rank - delta, 1].max
 
     @game.wrank = nwr
     @game.lrank = nlr
