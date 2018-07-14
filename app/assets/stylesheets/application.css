@@ -27,6 +27,20 @@
 /* Personal Style
  –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
+ .list-row-title {
+     padding: .1em .6em;
+     transition: .2s;
+ }
+
+.list-row {
+    padding: .5em .6em;
+    transition: .2s;
+}
+
+.list-row:hover {
+    background-color: #f2f2f2;
+}
+
 .title, .center {
     text-align: center;
 }

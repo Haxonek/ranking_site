@@ -4,7 +4,7 @@
     <div class="row title">
         <div class="twelve columns">
             <h1>Sentry Ping Pong Ranking</h1>
-            <p>games works: <%= @games.count %></p>
+            <p>games played: <%= @games.count %></p>
         </div>
     </div>
 
@@ -26,16 +26,20 @@
                 <% @games.each do |game| %>
                   {"name": "<%= @employees.find_by_id(game.winner).name %>", "hex": "<%= @employees.find_by_id(game.winner).color %>"},
                 <% end %>
-              ]
+            ];
+
+            var scores = [500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500];
 
               // puts game data in a JSON of employees
               var sample_data = [
                   <% @games.each do |game| %>
                     {"games with time": <%= game.id %>, "name":"<%= @employees.find_by_id(game.winner).name %>", "ranking":<%= game.wrank %>},
+                    {"ignore": scores[<%= game.winner %>] = <%= game.wrank %>}, // add to above line maybe?
                     {"games with time": <%= game.id %>, "name":"<%= @employees.find_by_id(game.loser).name %>", "ranking":<%= game.lrank %>},
+                    {"ignore": scores[<%= game.loser %>] = <%= game.lrank %>},
                     <% @employees.each do |employee| %>
-                        <% if (employee.id != game.winner || employee.id != game.loser) %>
-                        {"games with time": <%= game.id %>, "name":"<%= employee.name %>", "ranking":<%= employee.rank %>},
+                        <% if (employee.id != game.winner && employee.id != game.loser) %>
+                            {"games with time": <%= game.id %>, "name":"<%= employee.name %>", "ranking": scores[<%= employee.id %>]},
                         <% end %>
                     <% end %>
                   <% end %>
@@ -61,10 +65,7 @@
     <div class="row">
         <h6 class="center">RANKINGS</h6>
     </div>
-    <div class="row">
-        <div class="columns one">
-            id
-        </div>
+    <div class="row list-row-title">
         <div class="columns one center">
             rank
         </div>
@@ -74,15 +75,12 @@
         <div class="columns three center">
             color
         </div>
-        <div class="columns three right">
+        <div class="columns four right">
             modify
         </div>
     </div>
     <% @employees.each do |employee| %>
-        <div class="row">
-            <div class="columns one">
-                <%= employee.id %>
-            </div>
+        <div class="row list-row list-row-<%= employee.id %>">
             <div class="columns one center">
                 <%= employee.rank %>
             </div>
@@ -92,12 +90,20 @@
             <div class="columns three center" style="color: <%= employee.color %>;">
                 <%= employee.color %>
             </div>
-            <div class="columns three right">
+            <div class="columns four right">
                 <%= link_to 'Show', employee %>
                 <%= link_to 'Edit', edit_employee_path(employee) %>
                 <%= link_to 'Destroy', employee, method: :delete, data: { confirm: 'Are you sure?' } %>
             </div>
         </div>
+
+        <script>
+            var percent = (100*(<%= @games.where(winner: employee.id).count() %> / <%= @games.where(winner: employee.id).count() + @games.where(loser: employee.id).count() %>)).toString().concat("%");
+
+            console.log(percent)
+
+            d3.select(".list-row-<%= employee.id %>").append("svg").attr("width", "100%").attr("height", 3).append("rect").attr("width", percent).attr("height", 3).style("fill", "<%= employee.color %>");
+        </script>
     <% end %>
 
     <br/>
