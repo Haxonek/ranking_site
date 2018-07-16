@@ -1,14 +1,26 @@
-<p id="notice"><%= notice %></p>
+<div class="container">
+    <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @employee.name %>
-</p>
+    <div class="row">
+        <p>
+          <%= content_tag(:h1, @employee.name) %>
+        </p>
+    </div>
 
-<p>
-  <strong>Color:</strong>
-  <%= @employee.color %>
-</p>
+    <div class="row">
+        <p>
+          <strong>Color:</strong>
+          <%= @employee.color %>
+        </p>
+    </div>
 
-<%= link_to 'Edit', edit_employee_path(@employee) %> |
-<%= link_to 'Back', employees_path %>
+    <div class="row">
+        <p>
+          <strong>Score:</strong>
+          <%= @employee.rank %>
+        </p>
+    </div>
+
+    <%= link_to 'Edit', edit_employee_path(@employee) %> |
+    <%= link_to 'Back', employees_path %>
+</div>

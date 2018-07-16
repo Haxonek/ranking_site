@@ -80,22 +80,24 @@
         </div>
     </div>
     <% @employees.each do |employee| %>
-        <div class="row list-row list-row-<%= employee.id %>">
-            <div class="columns one center">
-                <%= employee.rank %>
+        <a href="employees/<%= employee.id %>" class="link-player-row">
+            <div class="row list-row list-row-<%= employee.id %>">
+                <div class="columns one center">
+                    <%= employee.rank %>
+                </div>
+                <div class="columns four center">
+                    <%= employee.name %>
+                </div>
+                <div class="columns three center" style="color: <%= employee.color %>;">
+                    <%= employee.color %>
+                </div>
+                <div class="columns four right">
+                    <%= link_to 'Show', employee %>
+                    <%= link_to 'Edit', edit_employee_path(employee) %>
+                    <%= link_to 'Destroy', employee, method: :delete, data: { confirm: 'Are you sure?' } %>
+                </div>
             </div>
-            <div class="columns four center">
-                <%= employee.name %>
-            </div>
-            <div class="columns three center" style="color: <%= employee.color %>;">
-                <%= employee.color %>
-            </div>
-            <div class="columns four right">
-                <%= link_to 'Show', employee %>
-                <%= link_to 'Edit', edit_employee_path(employee) %>
-                <%= link_to 'Destroy', employee, method: :delete, data: { confirm: 'Are you sure?' } %>
-            </div>
-        </div>
+        </a>
 
         <script>
             var percent = (100*(<%= @games.where(winner: employee.id).count() %> / <%= @games.where(winner: employee.id).count() + @games.where(loser: employee.id).count() %>)).toString().concat("%");
